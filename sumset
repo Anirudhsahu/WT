@@ -1,7 +1,7 @@
 #include<stdio.h>
 #include<stdlib.h>
 
-int d,w[10],x[10],n;
+int d,w[10],x[10],n,sumd;
 
 void sum_sets(int s,int i,int sumd){
 	int k;
@@ -24,11 +24,12 @@ void sum_sets(int s,int i,int sumd){
 int main(){
 	int i,sumd;
 	scanf("%d",&n);
+	scanf("%d",&d);
 	for(i=0;i<n;i++){
 		scanf("%d",&w[i]);
 		sumd+=w[i];
 		x[i]=0;
 	}
-	scanf("%d",&d);
+	
 	sum_sets(0,0,sumd);
 }
