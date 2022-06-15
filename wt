@@ -1,0 +1,386 @@
+Write a Servlet for User validation web application, where the user submits a login name and
+password to the server. The name and password are checked against the data already available in
+Database and if the data matches, a successful login page is returned. Otherwise a failure message is
+shown to the user.
+ServletUserVali.java
+import java.io.*;
+import javax.servlet.*;
+import javax.servlet.http.*;
+public class FirstServlet extends HttpServlet {
+public void doPost(HttpServletRequest request, HttpServletResponse response) throws
+ServletException, IOException {
+response.setContentType("text/html");
+PrintWriter out = response.getWriter();
+String n=request.getParameter("username");
+String p=request.getParameter("userpass");
+try {
+Class.forName("com.mysql.jdbc.Driver");
+Connection conn = DriverManager.getConnection(“jdbc:mysql://localhost/mydb”, “root”, “Gcet@123”);
+Statement stmt = conn.createStatement();
+String sql= "SELECT * FROM user WHERE name=n and pass=p";
+ResultSet rs = stmt.executeQuery(sql);
+if(rs.next()){
+out.println("Welcome "+n);
+} else{
+out.println("Sorry username or password error");
+RequestDispatcher rd=request.getRequestDispatcher("/index.html");
+rd.include(request,response);
+}
+rs.close();
+stmt.close();
+conn.close();
+} catch(Exception e){
+e.printStackTrace();
+}
+out.close();
+}
+}
+
+
+
+Write a Servlet for A simple calculator web application that takes two numbers and an
+operator (+,-,/,*and %)from an HTML page and returns the result page with the operation
+performed on the operands.
+
+Calc.html
+<html>
+<body>
+<form action="calc.java" method="POST" >
+<p>Enter First Number:</p>
+<input type="text" name="op1"/><br />
+<p>Enter Second Number:</p>
+<input type="text" name="op2"/><br />
+<p>Enter Operator:</p>
+<input type="text" name="operator"/><br />
+<input type="submit" value="Submit" name="submit" />
+</form>
+</body>
+</html>
+
+Calc.java
+import java.io.*;
+import javax.servlet.*;
+import javax.servlet.http.*;
+public class Calculator extends HttpServlet{
+public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException,
+IOException{
+try{
+response.setContentType("text/html");
+PrintWriter out= response.getWriter();
+int a1= Integer.parseInt(request.getParameter("n1"));
+int a2= Integer.parseInt(request.getParameter("n2"));
+String op = request.getParameter("r1");
+if(op.equals(“add”))
+out.println("<h1>Addition is </h1>"+(a1+a2));
+else if (op.equals(“sub”))
+out.println("<h1>Subtraction is </h1>"+(a1-a2));
+else if (op.equals(“mul”))
+out.println("<h1>Multiplication is </h1>"+(a1*a2));
+else if (op.equals(“div”))
+out.println("<h1>Division</h1>"+(a1/a2));
+else
+out.println(“Please select the operator”);
+}
+catch(Exception e){
+e.printStackTrace();
+}
+}
+}
+
+
+
+
+Write a Servlet for web application that lists all cookies stored in the browser on clicking “List
+Cookies” button. Add cookies if necessary.
+FirstServlet.java
+import javax.servlet.http.*;
+public class FirstServlet extends HttpServlet {
+public void doPost(HttpServletRequest request, HttpServletResponse response){
+try{
+response.setContentType("text/html");
+PrintWriter out = response.getWriter();
+String n=request.getParameter("userName");
+out.print("Welcome "+n);
+Cookie ck=new Cookie("uname",n);
+response.addCookie(ck);
+out.print("<form action='servlet2'>");
+out.print("<input type='submit' value='go'>");
+out.print("</form>");
+out.close();
+}catch(Exception e){System.out.println(e);}
+}
+}
+SecondServlet.java
+import java.io.*;
+import javax.servlet.*;
+import javax.servlet.http.*;
+public class SecondServlet extends HttpServlet {
+public void doPost(HttpServletRequest request, HttpServletResponse response){
+try{
+response.setContentType("text/html");
+PrintWriter out = response.getWriter();
+Cookie ck[]=request.getCookies();
+out.print("Hello "+ck[0].getValue());
+out.close();
+}catch(Exception e){System.out.println(e);}
+}
+}
+
+
+
+
+Write a JSP for User validation web application, where the user submits a login name and
+password to the server. Then name and password are checked against the data already available in
+Database and if the data matches, a successful login page is returned. Otherwise a failure message is
+shown to the user.
+Login.html
+<form action=" Loginprocess.jsp" method="post">
+Name:<input type="text" name="username"/><br/><br/>
+Password:<input type="password" name="userpass"/><br/><br/>
+<input type="submit" value="login"/>
+</form>
+Uservalid.jsp
+<%@ page import="java.sql.*" %>
+<%@ page import="java.io.*" %>
+<html>
+<body>
+<%
+String n=request.getParameter("username");
+String p=request.getParameter("userpass");
+try {
+String URL = "jdbc:mysql://localhost:3306/mydb";
+Connection conn = null;
+Class.forName("com.mysql.jdbc.Driver").newInstance();
+conn = DriverManager.getConnection(URL, "root", "Gcet@123");
+if(!conn.isClosed())
+out.println("Successfully connected to MySQL");
+Statement stmt = conn.createStatement();
+String sql= "SELECT * FROM user WHERE name=n and pass=p";
+ResultSet rs = stmt.executeQuery(sql);
+if(rs.next())
+out.println("Welcome "+n);
+else
+out.println("Sorry username or password error");
+rs.close();
+stmt.close();
+conn.close();
+}
+catch(Exception ex){
+out.println("Unable to connect to database.");
+}
+%>
+</body>
+</html>
+
+
+
+
+
+Write a JSP for A simple calculator web application that takes two numbers and an operator
+(+,-, /,*and %) from an HTML page and returns the result page with the operation performed on
+the operands.
+Calc.html
+<html>
+<head>
+<title>Basic Calculator</title>
+</head>
+<body>
+<form action="calculator.jsp" method="get">
+<label for="num1">Number 1</label>
+<input type="text" name="num1"><br>
+<label for="num2">Number 2</label>
+<input type="text" name="num2"><br>
+<input type="radio" name="r1" value="add" />addition<br />
+<input type="radio" name="r1" value="sub" />subtraction <br />
+<input type="radio" name="r1" value="mul" />multiplication<br />
+<input type="radio" name="r1" value="div" />division<br />
+<input type="submit" value="Calculate" />
+</form>
+</body>
+</html>
+Calculator.jsp
+<html>
+<head>
+<title>Calculator</title>
+</head>
+<body>
+<%@page language="java" %>
+<%
+int n1= Integer.parseInt(request.getParameter("num1"));
+int n2= Integer.parseInt(request.getParameter("num2"));
+String op = request.getParameter("r1");
+if(op.equals(“add”))
+out.println("<h1>Addition is </h1>"+(n1+n2));
+else if (op.equals(“sub”))
+out.println("<h1>Subtraction is </h1>"+(n1-n2));
+else if (op.equals(“mul”))
+out.println("<h1>Multiplication is </h1> "+(n1*n2));
+else if (op.equals(“div”))
+out.println("<h1>Division</h1>"+(n1/n2));
+else
+out.println(“Please select the operator”);
+%>
+</body>
+</html>
+
+
+
+
+
+Write a JSP for web application that lists all cookies stored in the browser on clicking “List
+Cookies” button. Add cookies if necessary.
+Cookie.html
+<html>
+<body>
+<h3>Cookie Example</h3>
+<form method="get" action="ListCookies.jsp">
+Enter Name <input type="text" name="name"><br>
+Enter Age <input type="text" name="age"><br>
+<input type="submit" value="Add Cookie" name="add">
+<input type="submit" value="List Cookies" name="list">
+</form>
+</body>
+</html>
+ListCookies.jsp
+<html>
+<body>
+<%
+String str1 = request.getParameter("name");
+String str2 = request.getParameter("age");
+String str3 = request.getParameter("add");
+String str4 = request.getParameter("list");
+if(str3 != null){
+Cookie c1 = new Cookie(str1, str2);
+response.addCookie(c1);
+}
+else if(str4 != null){
+Cookie clientCookies[] = request.getCookies();
+for( int i = 0; i < clientCookies.length; i++){
+out.print("<b>" + clientCookies[i].getName() + " : " + clientCookies[i].getValue() +
+"</b><br>");
+}
+}
+%>
+</body>
+</html>
+
+
+
+
+
+
+
+Write JSP for a web application that takes name and age from an HTML page. If the age is less
+than 18, it should send a page with “Hello <name>, you are not authorized to visit this site”
+message, where <name> should be replaced with the entered name. Otherwise it should send
+“Welcome <name> to this site” message.
+Age.html
+<html>
+<body>
+<form action="age.jsp">
+Username:<input type="text" name="username"> <br>
+Age:<input type="text" name="age" > <br>
+<input type="submit" name="submit">
+</form>
+</body>
+</html>
+Age.jsp
+<%
+String name=request.getParameter("username");
+int age=Integer.parseInt(request.getParameter("age"));
+if(age < 18){
+out.println(“Hello ”+name+ “ you are not authorized to visit this site” );
+} else{
+out.println("Welcome " + name + “ to this site”);
+}
+%>
+
+
+
+
+
+Write a PHP for User validation web application, where the user submits a login name and
+password to the server. The name and password are checked against the data already available in
+Database and if the data matches, a successful login page is returned. Otherwise a failure message is
+shown to the user.
+Index.html
+<html>
+<body>
+<div>
+<form action="login.php" method="POST">
+<p>LOGIN FORM</p><br />
+<p>USERNAME:</p>
+<input type="text" name="uname" ><br />
+<p>PASSWORD:</p>
+<input type="password" name="pass" ><br />
+<input type="submit" name="submit" value="Login"><br />
+</form>
+</div>
+</body>
+</html>
+Login.php
+<?php
+$uname=$_POST["uname"];
+$pass=$_POST["pass"];
+$con=mysqli_connect("localhost","root","","test1");
+if(!$con){
+die('Could not connect: '.mysqli_connect_error());
+}
+echo 'Connected successfully<br/>';
+$query="select * from users where USERNAME='$uname' and PASSWORD='$pass'";
+$records=mysqli_query($con,$query);
+if(mysqli_num_rows($records)>=1)
+{
+header("Location: success.html");
+}
+else{
+echo "wrong";
+}
+?>
+
+
+
+
+
+
+
+Write a PHP for A simple calculator web application that takes two numbers and an operator
+(+,-, /,*and %) from an HTML page and returns the result page with the operation performed on
+the operands.
+Calc.html
+<html>
+<body>
+<form action="calc.php" method="POST" >
+<p>Enter First Number:</p>
+<input type="text" name="op1"/><br />
+<p>Enter Second Number:</p>
+<input type="text" name="op2"/><br />
+<p>Enter Operator:</p>
+<input type="text" name="operator"/><br />
+<input type="submit" value="Submit" name="submit" />
+</form>
+</body>
+</html>
+Calc.php
+<?php
+if(isset($_POST["submit"]) && isset($_POST["op1"]) && isset($_POST["op2"]) &&
+isset($_POST["operator"])){
+$op1=(int)$_POST["op1"];
+$op2=(int)$_POST["op2"];
+$operator=$_POST["operator"];
+if($operator=="+"){
+echo "Addition of ".$op1." and ".$op2." is ".($op1+$op2);
+}else if($operator=="-"){
+echo "Subtraction of ".$op1." and ".$op2." is ".($op1-$op2);
+}else if($operator=="*"){
+echo "Multiplication of ".$op1." and ".$op2." is ".($op1*$op2);
+}else if($operator=="/"){
+if($op2!=0){
+echo "Division of ".$op1." and ".$op2." is ".($op1/$op2);
+}else{
+echo "second number cannot be zero";
+}
+}else if($operator=="%"){
+echo "Remainder of ".$op1." and ".$op2." is ".($op1%$op2);
+}
+}?>
