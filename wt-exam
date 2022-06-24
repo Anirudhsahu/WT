@@ -1,0 +1,778 @@
+
+1. Write a HTML page including any required java script that takes a
+number from one text field in the range of 0 to 999 and shows it in another
+text field in words. if the number is out of range, it should show “out of
+range” and if it is not a number, it should show “not a number” message in
+the result box.
+PROGRAM:
+<html>
+<head>
+ <script>
+ var dg = ['zero', 'one', 'two', 'three', 'four', 'five', 'six', 'seven', 'eight', 'nine'];
+ var tn = ['ten', 'eleven', 'twelve', 'thirteen', 'fourteen', 'fifteen', 'sixteen',
+'seventeen', 'eighteen', 'nineteen'];
+ var tw = ['twenty', 'thirty', 'forty', 'fifty', 'sixty', 'seventy', 'eighty', 'ninety'];
+ function change() {
+ var numString = document.getElementById('anumber').value;
+ var output = towords(numString);
+ document.getElementById('aresult').value = output;
+ }
+ function towords(s) {
+ s = s.toString();
+ if (s != parseFloat(s))
+ return 'not a number';
+ var x = s.indexOf('.');
+ if (x == -1)
+ x = s.length;
+ if (x > 3 || s[0] == '-')
+ return 'out of range';
+ var n = s.split('');
+ var str = '';
+ for (var i = 0; i < x; i++) {
+ if ((x - i) % 3 == 2) {
+ if (n[i] == '1') {
+ str += tn[Number(n[i + 1])] + ' '; i++;
+ }
+ else if (n[i] != 0) {
+ str += tw[n[i] - 2] + ' ';
+ } }
+ else if (n[i] != 0) {
+ str += dg[n[i]] + ' ';
+ if ((x - i) % 3 == 0)
+ str += 'hundred ';
+ } }
+ return str;
+ }
+ </script>
+</head>
+<body>
+ <form>
+ enter a number<input type="text" id="anumber">
+ <input type="button" value='convert to words' onClick="change()">
+ <input type="text" size="40" id="aresult">
+ </form>
+</body>
+</html>
+2. Write a HTML page that has one input, which can take multi-line text
+and a submit button. Once the user clicks the submit button, it should show
+the number of characters, words and lines in the text entered using an alert
+message. Words are separated with white space and lines are separated
+with new line character.
+PROGRAM:
+<html>
+<head>
+<title> Count lines, words and Characters </title>
+<script type="text/JavaScript">
+function count()
+{
+var str=document.f1.ta.value;
+var result='';
+result+='The number of characters are '+str.length+'\n';
+var words=str.split(' ');
+result+='The number of words are '+words.length+'\n';
+var lines=str.split('\n');
+result+='The number of lines are '+lines.length;
+alert(result);
+}
+</script>
+</head>
+<body>
+<center> <h3> Count the no.of Lines, words and Characters </h3>
+<form name='f1'>
+<label> Enter your Text Here : </label>
+<textarea rows='7' cols='70' name='ta'>
+</textarea>
+<input type="submit" value="submit" onclick="count()">
+</form>
+</center>
+</body>
+</html>
+3. Write a HTML page that contains a selection box with a list of 5
+countries. When user selects a country, its capital should be printed next to
+the list. Add CSS to customize the properties of the font of capital (color,
+bold, and font size).
+PROGRAM:
+<html>
+<head>
+ <title>Countries</title>
+ <script type="text/JavaScript">
+function showData(menu)
+{
+var country = menu.options[menu.selectedIndex].text;
+var capital = menu.options[menu.selectedIndex].value;
+document.getElementById("cou").innerHTML = "You have Selected :
+"+country;
+document.getElementById("cap").innerHTML = "It's Capital is : "+capital;
+}
+</script>
+</head>
+<body>
+ <center>
+ <h1 style="color:blue;">Select any Country, it will display capital of the
+Country</h1>
+ <form>
+ <select name="Countries" onChange="showData(this);">
+ <option value="">--Select a country--</option>
+ <option value="New Delhi">India</option>
+ <option value="moscow">Russia</option>
+ <option value="Tokyo">Japan</option>
+ <option value="Islamabad">pakistan</option>
+ <option value="washington DC">USA</option>
+ </select>aww <h2 style="color:red;font-family:Lucida
+Handwriting;font-size:150%;" id="cou" type="text"> </h2>
+ <h1 style="color:green;font-family:Times New Roman;font-size:200%;"
+id="cap" type="text"> </h1>
+ </center>
+ </form>
+</body>
+</html>
+4. Write a XML file which will display the Book information which
+includes the following: Title of the book, Author Name, ISBN number,
+Publisher name, Edition, Price.
+i. Write a Document Type Definition (DTD) to validate the above XML file.
+ii. Write a XSD to validate the above XML file.
+PROGRAM:
+i) DTD VALIDATION
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE bookstore[
+<!ELEMENT bookstore (book+)>
+<!ELEMENT book (title,author,ISBN,publisher,edition,price)>
+<!ELEMENT title (#PCDATA)>
+<!ELEMENT author (#PCDATA)>
+<!ELEMENT ISBN (#PCDATA)>
+<!ELEMENT publisher (#PCDATA)>
+<!ELEMENT edition (#PCDATA)>
+<!ELEMENT price (#PCDATA)>
+]>
+<!--b)bookstore.xml-->
+<bookstore >
+ <book>
+ <title>web programming</title>
+ <author>chrisbates</author>
+ <ISBN>123-456-789</ISBN>
+ <publisher>wiley</publisher>
+ <edition>3</edition>
+ <price>350</price>
+ </book>
+ <book>
+ <title>internet worldwideweb</title>
+ <author>ditel&amp;ditel</author>
+ <ISBN>123-456-781</ISBN>
+ <publisher>person</publisher>
+ <edition>3</edition>
+ <price>450</price>
+ </book>
+</bookstore>
+ii) XSD VALIDATION
+<!--a. Write a XSD to validate the XML file which will display the Book
+information which includes the following: Title of the book, Author Name,
+ISBN number, Publisher name, Edition, Price.-->
+(i)XML Schema (bookstore.xsd)
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema>
+ <xs:element name="bookstore">
+ <xs:complexType>
+ <xs:sequence>
+ <xs:element name="book" maxOccurs="unbounded">
+ <xs:complexType>
+ <xs:sequence>
+ <xs:element name="title" type="xs:string"></xs:element>
+ <xs:element name="author" type="xs:string"></xs:element>
+ <xs:element name="ISBN" type="xs:string"></xs:element>
+ <xs:element name="publisher" type="xs:string"></xs:element>
+ <xs:element name="edition" type="xs:int"></xs:element>
+ <xs:element name="price" type="xs:decimal"></xs:element>
+ </xs:sequence>
+ </xs:complexType>
+ </xs:element>
+ </xs:sequence>
+ </xs:complexType>
+ </xs:element>
+</xs:schema>
+(ii)Bookstore.xml
+<bookstore xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+ xsi:noNamespaceSchemaLocation="C:\Documents and
+Settings\Administrator\My Documents\bookstore.xsd">
+ <book>
+ <title>web programming</title>
+ <author>chrisbates</author>
+ <ISBN>123-456-789</ISBN>
+ <publisher>wiley</publisher>
+ <edition>3</edition>
+ <price>350</price>
+ </book>
+ <book>
+ <title>internet worldwideweb</title>
+ <author>ditel&amp;ditel</author>
+ <ISBN>123-456-781</ISBN>
+ <publisher>person</publisher>
+ <edition>3</edition>
+ <price>450</price>
+ </book>
+</bookstore>
+5. Write a Servlet for User validation web application, where the user
+submits a login name and password to the server. The name and password
+are checked against the data already available in Database and if the data
+matches, a successful login page is returned. Otherwise, a failure message is
+shown to the user.
+PROGRAM:
+FirstServlet.java
+import java.io.*;
+import javax.servlet.*;
+import javax.servlet.http.*;
+public class FirstServlet extends HttpServlet {
+public void doPost(HttpServletRequest request, HttpServletResponse response)
+throws
+ServletException, IOException {
+response.setContentType("text/html");
+PrintWriter out = response.getWriter();
+String n=request.getParameter("username");
+String p=request.getParameter("userpass");
+try {
+Class.forName("com.mysql.jdbc.Driver");
+Connection conn =
+DriverManager.getConnection(“jdbc:mysql://localhost/mydb”, “root”,
+“Gcet@123”);
+Statement stmt = conn.createStatement();
+String sql= "SELECT * FROM user WHERE name=n and pass=p";
+ResultSet rs = stmt.executeQuery(sql);
+if(rs.next()){
+out.println("Welcome "+n);
+} else{
+out.println("Sorry username or password error");
+RequestDispatcher rd=request.getRequestDispatcher("/index.html");
+rd.include(request,response);
+}
+rs.close();
+stmt.close();
+conn.close();
+} catch(Exception e){
+e.printStackTrace();
+}
+out.close();
+}
+}
+Web.xml
+<web-app>
+<servlet>
+<servlet-name> FirstServlet </servlet-name>
+<servlet-class> FirstServlet </servlet-class>
+</servlet>
+<servlet-mapping>
+<servlet-name> FirstServlet </servlet-name>
+<url-pattern>/ servlet1</ url-pattern >
+</servlet-mapping>
+</web-app>
+6. Modify the above Program to an xml file instead of database.
+PROGRAM:
+FirstServlet.java
+Import javax.servlet.http.*;
+public class SecondServlet extends HttpServlet {
+public void doPost(HttpServletRequest request, HttpServletResponse response)
+throws
+ServletException, IOException {
+response.setContentType("text/html");
+PrintWriter out = response.getWriter();
+String n=request.getParameter("username");
+String p=request.getParameter("userpass");
+ServletConfig config = getServletConfig();
+String name = config.getInitParameter(“username”);
+String pass = config.getInitParameter("password");
+if(n.equals(name)&&p.equals(pass)){
+out.println("Welcome "+n);
+} else{
+out.println("Sorry username or password error");
+RequestDispatcher rd=request.getRequestDispatcher("/index.html");
+rd.include(request,response);
+}
+out.close();
+}
+}
+Web.xml
+<web-app>
+<servlet>
+<servlet-name>SecondServlet</servlet-name>
+<servlet-class>SecondServlet</servlet-class>
+<init-param>
+<param-name>username</param-name>
+<param-value>admin</param-value>
+</init-param>
+<init-param>
+<param-name>password</param-name>
+<param-value>123456</param-value>
+</init-param>
+<servlet>
+<servlet-mapping>
+<servlet-name>SecondServlet</servlet-name>
+<url-pattern>/servlet2</ url-pattern >
+</servlet-mapping>
+</web-app>
+7. Write a Servlet for a simple calculator web application that takes two
+numbers and an operator (+, -, /, *, %) from an HTML page and returns
+the result page with the operation performed on the operands.
+PROGRAM:
+Calc.java
+import java.io.*;
+import javax.servlet.*;
+import javax.servlet.http.*;
+public class Calculator extends HttpServlet{
+public void doGet(HttpServletRequest request, HttpServletResponse response)
+throws ServletException,
+IOException{
+try{
+response.setContentType("text/html");
+PrintWriter out= response.getWriter();
+int a1= Integer.parseInt(request.getParameter("n1"));
+int a2= Integer.parseInt(request.getParameter("n2"));
+String op = request.getParameter("r1");
+if(op.equals(“add”))
+out.println("<h1>Addition is </h1>"+(a1+a2));
+else if (op.equals(“sub”))
+out.println("<h1>Subtraction is </h1>"+(a1-a2));
+else if (op.equals(“mul”))
+out.println("<h1>Multiplication is </h1>"+(a1*a2));
+else if (op.equals(“div”))
+out.println("<h1>Division</h1>"+(a1/a2));
+else
+out.println(“Please select the operator”);
+}
+catch(Exception e){
+e.printStackTrace();
+}
+}
+}
+Web.xml
+<web-app>
+<servlet>
+<servlet-name>Servlet3</servlet-name>
+<servlet-class>Calculator</servlet-class>
+</servlet>
+<servlet-mapping>
+<servlet-name>Servlet3</servlet-name>
+<url-pattern>/cal</url-pattern>
+</servlet-mapping>
+<welcome-file-list>
+<welcome-file>index.html</welcome-file>
+</welcome-file-list>
+</web-app>
+8. Write a Servlet for web application that lists all cookies stored in the
+browser on clicking “List Cookies” button. Assume cookies if necessary.
+PROGRAM:
+FirstServlet.java
+import javax.servlet.http.*;
+public class FirstServlet extends HttpServlet {
+public void doPost(HttpServletRequest request, HttpServletResponse
+response){
+try{
+response.setContentType("text/html");
+PrintWriter out = response.getWriter();
+String n=request.getParameter("userName");
+out.print("Welcome "+n);
+Cookie ck=new Cookie("uname",n);
+response.addCookie(ck);
+out.print("<form action='servlet2'>");
+out.print("<input type='submit' value='go'>");
+out.print("</form>");
+out.close();
+}catch(Exception e){System.out.println(e);}
+}
+}
+SecondServlet.java
+import java.io.*;
+import javax.servlet.*;
+import javax.servlet.http.*;
+public class SecondServlet extends HttpServlet {
+public void doPost(HttpServletRequest request, HttpServletResponse
+response){
+try{
+response.setContentType("text/html");
+PrintWriter out = response.getWriter();
+Cookie ck[]=request.getCookies();
+out.print("Hello "+ck[0].getValue());
+out.close();
+}catch(Exception e){System.out.println(e);}
+}
+}
+Web.xml
+<web-app>
+<servlet>
+<servlet-name>s1</servlet-name>
+<servlet-class>FirstServlet</servlet-class>
+</servlet>
+<servlet-mapping>
+<servlet-name>s1</servlet-name>
+<url-pattern>/servlet1</url-pattern>
+</servlet-mapping>
+<servlet>
+<servlet-name>s2</servlet-name>
+<servlet-class>SecondServlet</servlet-class>
+</servlet>
+<servlet-mapping>
+<servlet-name>s2</servlet-name>
+<url-pattern>/servlet2</url-pattern>
+</servlet-mapping>
+</web-app>
+9. Write JSP for User validation web application, where the user submits a
+login name and password to the server. The name and password are
+checked against the data already available in Database and if the data
+matches, a successful login page is returned. Otherwise, a failure message is
+shown to the user.
+PROGRAM:
+Login.html
+<form action=" Loginprocess.jsp" method="post">
+Name:<input type="text" name="username"/><br/><br/>
+Password:<input type="password" name="userpass"/><br/><br/>
+<input type="submit" value="login"/>
+</form>
+Uservalid.jsp
+<%@ page import="java.sql.*" %>
+<%@ page import="java.io.*" %>
+<html>
+<body>
+<%
+String n=request.getParameter("username");
+String p=request.getParameter("userpass");
+try {
+String URL = "jdbc:mysql://localhost:3306/mydb";
+Connection conn = null;
+Class.forName("com.mysql.jdbc.Driver").newInstance();
+conn = DriverManager.getConnection(URL, "root", "Gcet@123");
+if(!conn.isClosed())
+out.println("Successfully connected to MySQL");
+Statement stmt = conn.createStatement();
+String sql= "SELECT * FROM user WHERE name=n and pass=p";
+ResultSet rs = stmt.executeQuery(sql);
+if(rs.next())
+out.println("Welcome "+n);
+else
+out.println("Sorry username or password error");
+rs.close();
+stmt.close();
+conn.close();
+}
+catch(Exception ex){
+out.println("Unable to connect to database.");
+}
+%>
+</body>
+</html>
+10. Write JSP for a simple calculator web application that takes two
+numbers and an operator (+,-,/,*,%) from an HTML page and returns the
+result page with the operation performed on the operands.
+PROGRAM:
+index.html
+<html>
+<head>
+<title>Basic Calculator</title>
+</head>
+<body>
+<form action="calculator.jsp" method="get">
+Number1:<input type="text" name="num1"><br>
+Number2:= <input type="text" name="num2"><br>
+<input type="radio" name="r1" value="add" />addition<br />
+<input type="radio" name="r1" value="sub" />subtraction <br />
+<input type="radio" name="r1" value="mul" />multiplication<br />
+<input type="radio" name="r1" value="div" />division<br />
+<input type="submit" value="Calculate" />
+</form>
+</body>
+</html>
+Calculator.jsp
+<html>
+<head>
+<title>Calculator</title>
+</head>
+<body>
+<%@page language="java" %>
+<%
+int n1= Integer.parseInt(request.getParameter("num1"));
+int n2= Integer.parseInt(request.getParameter("num2"));
+String op = request.getParameter("r1");
+if(op.equals(“add”))
+out.println("<h1>Addition is </h1>"+(n1+n2));
+else if (op.equals(“sub”))
+out.println("<h1>Subtraction is </h1>"+(n1-n2));
+else if (op.equals(“mul”))
+out.println("<h1>Multiplication is </h1> "+(n1*n2));
+else if (op.equals(“div”))
+out.println("<h1>Division</h1>"+(n1/n2));
+else
+out.println(“Please select the operator”);
+%>
+</body>
+</html>
+11. Write JSP for a web application that lists all cookies stored in the
+browser on clicking “List Cookies” button. Assume cookies if necessary.
+PROGRAM:
+Cookie.html
+<html>
+<body>
+<h3>Cookie Example</h3>
+<form method="get" action="ListCookies.jsp">
+Enter Name <input type="text" name="name"><br>po
+Enter Age <input type="text" name="age"><br>
+<input type="submit" value="Add Cookie" name="add">
+<input type="submit" value="List Cookies" name="list">
+</form>
+</body>
+</html>
+ListCookies.jsp
+<html>
+<body>
+<%
+String str1 = request.getParameter("name");
+String str2 = request.getParameter("age");
+String str3 = request.getParameter("add");
+String str4 = request.getParameter("list");
+if(str3 != null){
+Cookie c1 = new Cookie(str1, str2);
+response.addCookie(c1);
+}
+else if(str4 != null){
+Cookie clientCookies[] = request.getCookies();
+for( int i = 0; i < clientCookies.length; i++){
+out.print("<b>" + clientCookies[i].getName() + " : " +
+clientCookies[i].getValue() +
+"</b><br>");
+}}
+%>
+</body>
+</html>
+12. Write JSP for a web application that takes name and age from an
+HTML page. If the age is less than 18, it should be send a page with “Hello
+<name >, you are not authorized to visit this site” message, where < name>
+should be replaced with the entered name. Otherwise, it should send
+“Welcome <name> to this site” message.
+PROGRAM:
+Age.html
+<html>
+<body>
+<form action="age.jsp">
+Username:<input type="text" name="username"> <br>
+Age:<input type="text" name="age" > <br>
+<input type="submit" name="submit">
+</form>
+</body>
+</html>
+Age.jsp
+<%
+String name=request.getParameter("username");
+int age=Integer.parseInt(request.getParameter("age"));
+if(age < 18){
+out.println(“Hello ”+name+ “ you are not authorized to visit this site” );
+} else{
+out.println("Welcome " + name + “ to this site”);
+}
+%>
+13. Write PHP code for user validation web application, where the user
+submits a login name and password to the server. The name and password
+are checked against the data already available in Database and if the data
+matches, a successful login page is returned. Otherwise a failure message is
+shown to the user.
+PROGRAM:
+Index.html
+<html>
+<body>
+<div>
+<form action="login.php" method="POST">
+<p>LOGIN FORM</p><br />
+<p>USERNAME:</p>
+<input type="text" name="uname" ><br />
+<p>PASSWORD:</p>
+<input type="password" name="pass" ><br />
+<input type="submit" name="submit" value="Login"><br />
+</form>
+</div>
+</body>
+</html>
+Login.php
+<?php
+$uname=$_POST["uname"];
+$pass=$_POST["pass"];
+$con=mysqli_connect("localhost","root","","test1");
+if(!$con){
+die('Could not connect: '.mysqli_connect_error());
+}
+echo 'Connected successfully<br/>';
+$query="select * from users where USERNAME='$uname' and
+PASSWORD='$pass'";
+$records=mysqli_query($con,$query);
+if(mysqli_num_rows($records)>=1)
+{
+header("Location: success.html");
+}
+else{
+echo "wrong";
+}
+?>
+14. Write PHP code for a simple calculator web application that takes two
+numbers and an operator (+,-,/,*,%) from an HTML page and returns the
+result page with the operation performed on the operands.
+PROGRAM:
+Calc.html
+<html>
+<body>
+<form action="calc.php" method="POST" >
+<p>Enter First Number:</p>
+<input type="text" name="op1"/><br />
+<p>Enter Second Number:</p>
+<input type="text" name="op2"/><br />
+<p>Enter Operator:</p>
+<input type="text" name="operator"/><br />
+<input type="submit" value="Submit" name="submit" />
+</form>
+</body>
+</html>
+Calc.php
+<?php
+if(isset($_POST["submit"]) && isset($_POST["op1"]) &&
+isset($_POST["op2"]) &&
+isset($_POST["operator"])){
+$op1=(int)$_POST["op1"];
+$op2=(int)$_POST["op2"];
+$operator=$_POST["operator"];
+if($operator=="+"){
+echo "Addition of ".$op1." and ".$op2." is ".($op1+$op2);
+}else if($operator=="-"){
+echo "Subtraction of ".$op1." and ".$op2." is ".($op1-$op2);
+}else if($operator=="*"){
+echo "Multiplication of ".$op1." and ".$op2." is ".($op1*$op2);
+}else if($operator=="/"){
+if($op2!=0){
+echo "Division of ".$op1." and ".$op2." is ".($op1/$op2);
+}else{
+echo "second number cannot be zero";
+}
+} else if($operator=="%"){
+echo "Remainder of ".$op1." and ".$op2." is ".($op1%$op2);
+}
+} ?>
+15. Write PHP Code Validate the following fields of registration page.
+i) Name (it should contains alphabets and length at least 6 characters)
+ii) Password(it should not be less than 6 characters)
+iii) Email id (it should not contains any invalid character and must follow
+the standard
+pattern name@domain.com)
+iv) Phone number (it should contain 10 digits only)
+PASSWORD:
+Validation.php
+<center><h2>Validation Form</h2>
+<form method="get">
+Name: <input type="text" name="uname"><br>
+Password: <input type="text" name="pass"><br>
+Email ID: <input type="text" name="email"><br>
+Phone Number: <input type="text" name="phone"><br>
+<input type="submit" name="submit" value="Validate">
+</form>
+<?php
+if(isset($_POST['submit'])) {
+$uname = $_POST['uname'];
+$pass = $_POST['pass'];
+$email = $_POST['email'];
+$phone = $_POST['phone'];
+$flag = 1;
+if(!$uname) echo "Name not entered!<br>";
+else {
+if(ctype_alpha($uname)==0) {
+echo "Name contains numeric characters<br>";
+$flag=0;
+}
+else if(strlen($uname)<6) {
+echo "Name is less than 6 characters<br>";
+$flag=0;
+}
+}
+if(!$pass)
+echo "Password not entered!<br>";
+else {
+if(strlen($pass)<6) {
+echo "Password is less than 6 characters<br>";
+$flag=0;
+}
+}
+if(!$email)
+echo "Email not entered!<br>";
+else {
+if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+echo "Email address is Incorrect<br>";
+$flag=0;
+}
+}
+if(!$phone)
+echo "Phone number not entered!<br>";
+else {
+if(ctype_digit($phone)==0) {
+echo "Phone Number cannot contain alphabets<br>";
+$flag=0;
+}
+else if(strlen($phone)!=10) {
+echo "Phone Number is not 10 digits long<br>";
+$flag=0;
+}
+}
+if($flag)
+echo "All fields are validated!";
+}
+?>
+</center>
+16. A web application for implementation using PHP. The user is first
+served login page which takes user’s name and password. After submitting
+the details, the server checks these values against the data from a database
+and takes the following decisions
+If name and password match serves a welcome page with user’s full name
+If name matches and password doesn’t match, then server “password
+mismatch” page If name is not found in the full name, it stores, the login
+name, password and full name in the database.(hint: Use session for storing
+the submitted login name and password)
+PASSWORD:
+LoginValidation.php
+<?php
+$con = mysqli_connect("localhost","root","Gcet@123","test");
+if(!$con)
+die(mysqli_error($con));
+if(isset($_POST['submit'])) {
+$uname = $_POST['user'];
+$pwd = $_POST['pass'];
+if($uname and $pwd) {
+$res = mysqli_query($con,"select * from users where username='$uname' and
+password = '$pwd'");
+if(mysqli_num_rows($res)>0) {
+$row = mysqli_fetch_assoc($res);
+echo '<h1>Welcome '.$row['name'].'</h1>';
+exit;
+}
+$res = mysqli_query($con,"select * from users where username='$uname'");
+if(mysqli_num_rows($res)>0) {
+echo '<center><h3>Password Mismatch!<h3></center>';
+}
+else {
+echo '<center>User is not available.<h2>Registration Form</h2><form
+method="post">Full Name: <input type="text" name="name"><br>Username:
+<input
+type="text" name="user"><br>Password: <input type="password"
+name="pass"><br>Retype
+Password: <input type="password" name="pass1"><br><input type="submit"
+name="register"
+value="Register"></form></center>';
+exit;
+}
+}
+}
+if(isset($_POST['register'])) {
+$uname = $_POST['user'];
+$name = $_POST['name'];
+$pwd = $_POST['pass'];
+$pwd1 = $_POST['pass1'];
+if($uname and $name and $pwd and $pwd1)
+if(strcmp($pwd,$pwd1)!=0) echo "Passwords are not matched!";
+else {
+$res = mysqli_query($con,"insert into users values('$uname','$pwd','$name')");
+echo 'Inserted Successfully';
+}
+}
+?>
+<center><h2>Sign In</h2><form method="post">
+Username: <input type="text" name="user"><br>
+Password: <input type="password" name="pass"><br>
+<input type="submit" name="submit" value="Login">
+</form></center>
